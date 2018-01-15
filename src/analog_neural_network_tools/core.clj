@@ -17,22 +17,22 @@
 
 ;; (Math/PI)
 
-(defn function-round [fn start end step max min radius]
+(defn function-round [fn start end points max min radius]
   (q/with-stroke cut
     (q/ellipse 0 0 radius radius))
     
   (q/with-stroke engrave
-    (doseq [i (range start end step)]
+    (doseq [i points]
       (q/with-rotation 
         [(q/map-range 
            (fn i) 
            min max 0 (* 2 (Math/PI)))]
         (q/with-fill engrave
-          (let [number (format "%.2f" (fn i))
+          (let [number (apply str (take 3 (str i)))
                 x (- (* (count number) 2)) 
                 y (- (/ radius 2) 20)]
 
-            (q/text-size 6)
+            (q/text-size 8)
             (when true 
               (q/text number (+ x)  y))))
             ; (when 
@@ -43,8 +43,14 @@
 
         (q/no-fill)
 
-        (q/line 0 (/ radius 2) 0 (- (/ radius 2) 10))))))
+        (when (rational? i)
+          (q/stroke-weight 2))
+        (q/line 0 (/ radius 2) 0 (- (/ radius 2) (if (rational? i) 10 4)))
+        (q/stroke-weight 1)))))
         
+(count "1 2 3")
+
+(count)
       
       
 
@@ -67,18 +73,20 @@
 
 (defn draw [state]
   (q/background 255)
-  (q/with-fill [0 0 0]
-    (q/text-size 18)
-    (q/text "∑x" 10 18)
-    (q/text-size 10)
-    (q/text "i" 34 20))
+  ; (q/with-fill [0 0 0]
+  ;   (q/text-size 18)
+  ;   (q/text "∑x" 10 18)
+  ;   (q/text-size 10)
+  ;   (q/text "i" 34 20))
   ;; (function-block sigmoid -4 4 0.2)
   (q/no-fill)
   (q/with-translation [(/ (q/width) 2) (/ (q/height) 2)]
     (q/with-stroke [0]
       (q/point 0 0))
-    (function-round sigmoid -4 4 0.2 -1 1 300)
-    (function-round log 1 10 0.1 0 2.302 380))
+    ;; (function-round sigmoid -4 4 0.2 -1 1 300)
+    (function-round log 1 10 (range 1 10) 0 2.302 380)
+    (function-round log 1 10 (range 1 2 0.1) 0 2.302 380)
+    (function-round log 1 10 (range 2 3 0.2) 0 2.302 380))
   (when (= :print (:method state)) (q/exit)))
   
 (q/defsketch analog-neural-network-tools-dev
