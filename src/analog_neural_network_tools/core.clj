@@ -28,22 +28,19 @@
       (q/vertex 0 (* -1/2 from-d))
 
       (q/bezier-vertex
-       0
-       (q/map-range 0.1 0 1 (* -1/2 to-d) (* -1/2 from-d))
+       0  (q/map-range 0.1 0 1 (* -1/2 to-d) (* -1/2 from-d))
 
-       20
-       (q/map-range 1.2 0 1 (* -1/2 to-d) (* -1/2 from-d))
+       20 (q/map-range 1.2 0 1 (* -1/2 to-d) (* -1/2 from-d))
 
        ;; middle point
        20 (q/map-range 0.5 0 1 (* -1/2 to-d) (* -1/2 from-d))
        )
 
       (q/bezier-vertex
-       20
-       (q/map-range -0.2 0 1 (* -1/2 to-d) (* -1/2 from-d))
-       0
-       (q/map-range 0.9 0 1 (* -1/2 to-d) (* -1/2 from-d))
-       0 (* -1/2 to-d))
+       20 (q/map-range -0.2 0 1 (* -1/2 to-d) (* -1/2 from-d))
+       0  (q/map-range 0.9 0 1 (* -1/2 to-d) (* -1/2 from-d))
+       0  (* -1/2 to-d))
+
       (q/end-shape)
       )
     )
@@ -130,9 +127,9 @@
       :points (range 2 3 0.2)
       :max 0 :min 2.302 :radius 700})
     (puzzle-join
-     {:from-d 700 :to-d 800 :rotation 0})
-    (puzzle-join
-     {:from-d 0 :to-d 200 :rotation 0})
+     {:from-d 700 :to-d 800 :rotation 1})
+    ;; (puzzle-join
+    ;;  {:from-d 100 :to-d 200 :rotation 0})
 
     ;; multiplier
     (q/ellipse 0 0 800 800)
