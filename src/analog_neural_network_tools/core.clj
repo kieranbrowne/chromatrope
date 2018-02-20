@@ -2,9 +2,9 @@
   (:require [quil.core :as q]
             [quil.middleware :as m]))
 
-; (def cut [255 0 0])
+(def cut [255 0 0])
 ; (def engrave [0 055 0])
-(def cut [255 255 255 0])
+;; (def cut [255 255 255 0])
 (def engrave [0 0 0])
 
 (defn function-block [fn start end step]
@@ -18,6 +18,36 @@
     (q/end-shape)))
 
 ;; (Math/PI)
+
+(defn puzzle-join
+  [{:keys [from-d to-d rotation]}]
+  (q/with-rotation [rotation]
+    (q/with-stroke cut
+      (q/stroke-weight 1)
+      (q/begin-shape)
+      (q/vertex 0 (* -1/2 from-d))
+
+      (q/bezier-vertex
+       0
+       (q/map-range 0.1 0 1 (* -1/2 to-d) (* -1/2 from-d))
+
+       20
+       (q/map-range 1.2 0 1 (* -1/2 to-d) (* -1/2 from-d))
+
+       ;; middle point
+       20 (q/map-range 0.5 0 1 (* -1/2 to-d) (* -1/2 from-d))
+       )
+
+      (q/bezier-vertex
+       20
+       (q/map-range -0.2 0 1 (* -1/2 to-d) (* -1/2 from-d))
+       0
+       (q/map-range 0.9 0 1 (* -1/2 to-d) (* -1/2 from-d))
+       0 (* -1/2 to-d))
+      (q/end-shape)
+      )
+    )
+  )
 
 (defn function-round
   [{:keys [fn start end points max min radius mode] :or {mode :outer}}]
@@ -99,6 +129,11 @@
      {:fn log :start 1 :end 10
       :points (range 2 3 0.2)
       :max 0 :min 2.302 :radius 700})
+    (puzzle-join
+     {:from-d 700 :to-d 800 :rotation 0})
+    (puzzle-join
+     {:from-d 0 :to-d 200 :rotation 0})
+
     ;; multiplier
     (q/ellipse 0 0 800 800)
     (function-round
