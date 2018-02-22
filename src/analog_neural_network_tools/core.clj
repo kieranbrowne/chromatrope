@@ -150,10 +150,8 @@
   ;; (function-block sigmoid -4 4 0.2)
   (q/no-fill)
   (q/with-translation [(/ (q/width) 2) (/ (q/height) 2)]
+    (when (= (:method state) :print) (q/scale 0.7))
 
-    ; draw centre point
-    (q/with-stroke [0]
-      (q/ellipse 0 0 2 2))
 
     ; draw outer multiplier disc
     (q/ellipse 0 0 800 800)
@@ -162,7 +160,9 @@
                mult-outer))
     ; draw inner multiplier disc
     (q/ellipse 0 0 700 700)
+    (q/rotate 4)
     (mapv function-round mult-outer)
+    (q/ellipse 0 0 600 600)
 
     ;; (puzzle-join
     ;;  {:from-d 700 :to-d 800 :rotation 1})
@@ -170,43 +170,49 @@
     ;;  {:from-d 100 :to-d 200 :rotation 0})
 
     ;; summer
-    ; draw inner add disc
+    ;; outer marker
+    ;; (q/ellipse 0 0 600 600)
+    (q/with-fill engrave
+      (q/triangle 0 -296 -2 -300 2 -300)
+      ;; (q/triangle 0 -204 -2 -200 2 -200)
+      )
     (q/ellipse 0 0 591 591)
-    (q/ellipse 0 0 500 500)
+
+    ; draw inner add disc
+    ;; (q/ellipse 0 0 591 591)
     (mapv function-round
           (map #(assoc % :radius 590 :numbers? false)
                add-outer))
     (mapv function-round
           (map #(assoc % :mode :inner)
                add-outer))
-    ; draw outer add disc
-    (q/ellipse 0 0 600 600)
+    (q/rotate 4)
+    (q/ellipse 0 0 500 500)
+    ;; ; draw outer add disc
+    ;; (q/ellipse 0 0 500 500)
     (mapv function-round
           (map #(assoc % :numbers? false) add-outer))
-    ; draw sum disc
-    (q/ellipse 0 0 410 410)
     (mapv function-round
           (map #(assoc % :radius 410 :mode :inner :fn - :text-fn (partial max 0))
-               add-outer))
+               add-outer)
+          )
+    (q/ellipse 0 0 410 410)
 
-    ; draw sum indicator
+    ; inner draw sum indicator
+    (q/ellipse 0 0 410 410)
     (q/with-fill engrave
-      (q/triangle 0 -296 -2 -300 2 -300)
-      (q/triangle 0 -204 -2 -200 2 -200)
-      )
+      (q/triangle 0 -204 -2 -200 2 -200))
     (q/ellipse 0 0 400 400)
+    ; draw centre point
+    ;; (q/with-stroke [0]
+    ;;   (q/ellipse 0 0 2 2))
     ;; (function-round
     ;;  {:fn identity :start 1 :end 10 :points (range -1 1 0.1) :max -1 :min 1 :radius 600})
     ;; (function-round
     ;;  {:fn identity :start 1 :end 10 :points (range -1 1 0.1) :max -1 :min 1 :radius 800})
     )
+  ;; (q/save "test.png")
   (when (= :print (:method state)) (q/exit)))
-
-(max 1 2)
-
-(log 0.01)
-
-(mod 1.5 1)
 
 (q/defsketch analog-neural-network-tools-dev
   :size [880 880]
@@ -217,7 +223,7 @@
   :draw draw)
 
 (q/defsketch analog-neural-network-tools-print
-  :size [880 880]
+  :size [595 842]
   :renderer :pdf
   :output-file "output.pdf"
   :setup setup
