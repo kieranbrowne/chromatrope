@@ -1,18 +1,8 @@
-# analog-neural-network-tools
-
-A Quil sketch designed to ... well, that part is up to you.
-
-## Usage
-
-LightTable - open `core.clj` and press `Ctrl+Shift+Enter` to evaluate the file.
-
-Emacs - run cider, open `core.clj` and press `C-c C-k` to evaluate the file.
-
-REPL - run `(require 'analog-neural-network-tools.core)`.
+# Chromatrope
 
 ## License
 
-Copyright © 2016 FIXME
+Copyright © 2018 Kieran Browne
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
