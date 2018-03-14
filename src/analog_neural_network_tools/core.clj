@@ -2,9 +2,9 @@
   (:require [quil.core :as q]
             [quil.middleware :as m]))
 
-(def cut [255 0 0])
-(def etch [0 0 255])
-(def raster-etch [0 0 0])
+(def cut [0 0 0])
+(def etch [200 200 200])
+(def raster-etch [200 200 200])
 
 (defn function-block [fn start end step]
   (q/with-stroke etch
@@ -163,24 +163,24 @@
   ;   (q/text "i" 34 20))
   ;; (function-block sigmoid -4 4 0.2)
   (q/no-fill)
-  (q/with-translation [(* (q/width) 0.25) (/ (q/height) 2)]
+  (q/with-translation [(* (q/width) 0.5) (/ (q/height) 2)]
     (when (= (:method state) :print) (q/scale 0.7))
     ;; (when (= (:method state) :dev) (q/scale 0.3))
 
 
     ; draw outer multiplier disc
-    (q/stroke-weight 0.1)
+    (q/stroke-weight 1.1)
     (q/with-stroke cut
       ;; edge of device
       (q/ellipse 0 0 (* 0.96 (q/height)) (* 0.96 (q/height)))
       (q/with-translation [(* 1/2 (q/width)) 0]
-        (q/ellipse 0 0 (* 0.96 (q/height)) (* 0.96 (q/height)))
+        ;; (q/ellipse 0 0 (* 0.96 (q/height)) (* 0.96 (q/height)))
 
-        (q/with-stroke etch
-          (q/ellipse 0 0 (* 0.72 (q/height)) (* 0.72 (q/height)))
-          (q/ellipse 0 0 (* 0.7 (q/height)) (* 0.7 (q/height)))
-          (q/ellipse 0 0 (* 0.46 (q/height)) (* 0.46 (q/height)))
-          (q/ellipse 0 0 (* 0.44 (q/height)) (* 0.44 (q/height))))
+        ;; (q/with-stroke etch
+        ;;   (q/ellipse 0 0 (* 0.72 (q/height)) (* 0.72 (q/height)))
+        ;;   (q/ellipse 0 0 (* 0.7 (q/height)) (* 0.7 (q/height)))
+        ;;   (q/ellipse 0 0 (* 0.46 (q/height)) (* 0.46 (q/height)))
+        ;;   (q/ellipse 0 0 (* 0.44 (q/height)) (* 0.44 (q/height))))
         )
       )
     ;; (q/ellipse 0 0 800 (q/height))
@@ -255,11 +255,11 @@
     ;; (function-round
     ;;  {:fn identity :start 1 :end 10 :points (range -1 1 0.1) :max -1 :min 1 :radius 800})
     )
-  ;; (q/save "test.png")
+  (q/save "test.png")
   (when-not (= (:method state) :dev) (q/exit)))
 
 (q/defsketch analog-neural-network-tools-dev
-  :size [900 450]
+  :size [1800 1800]
   :renderer :java2d
   :setup setup
   :update (update :dev)
