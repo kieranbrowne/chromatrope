@@ -27,13 +27,16 @@
             (- (* tuck o)) (* tuck a))))))
 
 (defn no-1 []
-  ;; (q/fill 0 255 0)
-  ;; (q/fill 0 255 0)
-  ;; (q/stroke 0 20 25)
+  (q/fill 200 0 255)
+  ;; (q/fill (colour-phase 0.01) (colour-phase 0.02) (colour-phase 0.08))
+  (q/stroke 0 255 0)
   (star 6))
   
 (defn no-2 []
-  ;; (q/fill 220 70 20)
+  ;; (q/fill (colour-phase 0.01) (colour-phase 0.2) (colour-phase 0.08))
+  (q/fill 25 0 200)
+  ;; (q/stroke (colour-phase 0.01) (colour-phase 0.2) (colour-phase 0.08))
+  (q/stroke 255 0 255)
   (let [full (- (* 0.5 (q/height)) 40)
 
         middle (* 0.5 full)
@@ -54,20 +57,34 @@
         ;; (q/bezier-vertex 0 0 400 400 0 0)
         (q/end-shape)))))
 
+(defn colour-phase [rate]
+  (q/map-range (q/sin (* (q/frame-count) rate)) -1 1 0 255))
+  
+
 (defn no-6 []
-  (q/fill 205 0 205)
-  (q/stroke 25)
+  ;; (q/fill (colour-phase 0.1) (colour-phase 0.22) 200)
+  (q/fill 20 255 255)
+  ;; (q/stroke (colour-phase 0.06))
+  (q/stroke 255)
   (star 8 0.3)
   (do-around 8 (q/line 0 0 0 (* 1/2 (q/height)))))
   
         
+(defn no-7 []
+  ;; (q/fill (colour-phase 0.1) (colour-phase 0.22) 200)
+  (q/fill 0 255 55)
+  ;; (q/stroke (colour-phase 0.06))
+  (q/stroke 255)
+  (star 38 0.3)
+  (do-around 28 (q/line 0 0 0 (* 1/2 (q/height)))))
+  
           
         
     
   
 (defn draw-slide [n slide-fn slides]
   (q/with-graphics (deref (nth slides n))
-    (q/background 255)
+    (q/background 0)
     (q/no-stroke)
     (q/with-translation (centre)
       (slide-fn))))
@@ -78,34 +95,45 @@
   
 
 (defn draw [state]
-  (q/background 255)
+  (q/background 5)
   (draw-slide 0 no-1 (:slides state))
   (draw-slide 1 no-2 (:slides state))
   (draw-slide 5 no-6 (:slides state))
+  (draw-slide 6 no-7 (:slides state))
       
   (q/translate (centre))
-  (q/fill 255)
+  (q/fill 0)
+  (q/no-stroke)
   (do-around 46 (q/ellipse (* 1/2 (q/width)) (* 1/2 (q/width)) 169 169))
-  (when (= (:method state) :dev) (q/blend-mode :subtract))
-  (q/with-rotation [(/ (q/frame-count) -18)]
+  (when (= (:method state) :dev) (q/blend-mode :exclusion))
+  (q/with-rotation [(/ (q/frame-count) 380)]
     (show-slide 0 (:slides state)))
-  (q/with-rotation [(/ (q/frame-count) 40)]
-
+  (q/with-rotation [(/ (q/frame-count) 55)]
+    (show-slide 6 (:slides state)))
+  (q/with-rotation [(/ (q/frame-count) 155)]
     (show-slide 1 (:slides state)))
-  (q/with-rotation [(/ (q/frame-count) -90)]
+  (q/with-rotation [(/ (q/frame-count) -60)]
     (show-slide 5 (:slides state)))
+  (when (= (:method state) :dev) (q/blend-mode :darkest))
+  (q/with-rotation [(/ (q/frame-count) 820)]
+    (show-slide 1 (:slides state)))
+  (q/with-rotation [(/ (q/frame-count) -200)]
+    (show-slide 6 (:slides state)))
   ;; (q/save "test.png")
+  ;; (q/save-frame  "frame-####.png")
   (when-not (= (:method state) :dev) (q/exit)))
 
 
 (q/defsketch chromatrope-dev
   :size [400 400]
   :renderer :p2d
-  :setup (fn [] {:slides (repeatedly #(future (q/create-graphics 400 400 :p2d)))
-                 :method :dev
-                 :cut [0 0 0]
-                 :etch [255 0 0]
-                 :raster-etch [0 0 255]})
+  :setup (fn [] 
+           ;; (q/color-mode :hsb)
+           {:slides (repeatedly #(future (q/create-graphics 400 400 :p2d)))
+            :method :dev
+            :cut [0 0 0]
+            :etch [255 0 0]
+            :raster-etch [0 0 255]})
                  
   :update identity
   :draw draw
