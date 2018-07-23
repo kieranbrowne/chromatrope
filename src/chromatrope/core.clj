@@ -111,11 +111,9 @@
 
 
 
-
-
-
 (defn draw [state]
   ;; white spotlight
+  (q/stroke-cap :project)
   (q/background 0)
 
   (q/translate (centre))
@@ -139,198 +137,64 @@
   (q/fill 1 1 1)
   (q/stroke 0)
   (q/no-stroke)
-  (q/with-rotation [(/ (q/frame-count) 100)]
-    (do-around 4
-               (q/fill 0.0 1 1)
-               (q/stroke-weight 4)
-               (q/stroke 0)
-               (q/stroke-join :bevel)
-               ;; (q/stroke 0.0 1 1)
-               (q/line 0 50  30 20)
-               (q/line 0 60  40 20)
-               ;; (q/stroke 0.65 1 1)
-               (q/line 0 50 -20 30)
-               (q/line 0 60 -30 30)
-               ;; (q/stroke-weight 10)
-               ;; (q/stroke 0.0 1 1)
-               ;; (q/line 0 90 -100 80)
-               ;; (q/line 0 120 -120 90)
+  (q/stroke 0)
+  (q/stroke-weight 5)
+  (q/no-fill)
 
-               (q/no-fill)
-               ;; (q/rect 0 2 20 20)
-               ;; (q/stroke 0.65 1 1)
-               (let [s 20]
-                 (q/line 0 s s s)
-                 (q/line s s s 0)
-                 )
-               ;; (q/stroke 0.65 1 1)
-               (q/stroke-weight 2)
-               ;; (q/stroke 0 1 1)
-               (let [s 16]
-                 (q/line 0 s s s)
-                 (q/line s s s 0)
-                 )
-               ;; (q/stroke 0.65 1 1)
-               (let [s 13]
-                 (q/line 0 s s s)
-                 (q/line s s s 0)
-                 )
-               ;; (q/stroke 0 1 1)
-               (let [s 10]
-                 (q/line 0 s s s)
-                 (q/line s s s 0)
-                 )
-               ;; (q/stroke 0.65 1 1)
-               (let [s 7]
-                 (q/line 0 s s s)
-                 (q/line s s s 0)
-                 )
-               ;; (q/stroke 0 1 1)
-               (let [s 4]
-                 (q/line 0 s s s)
-                 (q/line s s s 0)
-                 )
+  (let [f 
+        (fn []
+          (dotimes [n 30]
+                (q/with-rotation [(* (/ 6.28 30) n)]
+                  (q/stroke 0)
+                  (q/stroke (+ 0.2 (* (mod n 2) 0.5)) 1 1)
+                  ;; (q/stroke-weight 1.8)
+                  (q/line (* 10 (q/cos (* (/ 6.28 30) n))) 0 
+                          (* 10 (q/cos (* (/ 6.28 30) n))) 30)
+                  ;; (q/stroke-weight 3.8)
+                  (q/line (* 30 (q/sin (* (/ 6.28 30) n))) 60 
+                          (* 10 (q/cos (* (/ 6.28 30) n))) 30)
+                  ;; (q/stroke-weight 5)
+                  (q/line (* 30 (q/sin (* (/ 6.28 30) n))) 90 
+                          (* 30 (q/sin (* (/ 6.28 30) n))) 60)
+                  ;; (q/stroke-weight 6)
+                  (q/line (* 30 (q/cos (* (/ 6.28 30) n))) 110 
+                          (* 30 (q/sin (* (/ 6.28 30) n))) 90)
+                  ;; (q/stroke-weight 7)
+                  (q/line (* 40 (q/sin (* (/ 6.28 30) n))) 120 
+                          (* 30 (q/cos (* (/ 6.28 30) n))) 110)
+                  (q/fill (* (mod n 2) 0.7) 1 1)
+                  (q/fill (+ 0.2 (* (mod n 2) 0.5)) 1 1)
+                  (q/no-stroke)
+                  (q/ellipse 0 (+ (* (q/cos (* (/ 6.28 30) n)) 8) 140) 40 40))))]
+            
 
+                  ;; (q/stroke-weight 8)
+                  ; (q/line (* 40 (q/sin (* (/ 6.28 30) n))) 120 
+                  ;         (* 20 (q/sin (* (/ 6.28 30) n))) 140)
+                  ; (q/line (* 40 (q/sin (* (/ 6.28 30) n))) 120 
+                  ;         (* 20 (q/sin (* (/ 6.28 30) n))) 140)
+                  ; (q/line (* 40 (q/cos (* (/ 6.28 30) n))) 160 
+                  ;         (* 20 (q/sin (* (/ 6.28 30) n))) 140)
+                  ; (q/line (* 40 (q/cos (* (/ 6.28 30) n))) 160 
+                  ;         (* 120 (q/sin (* (/ 6.28 30) n))) 190))))]
+    
+      (q/with-rotation [(/ (q/frame-count) 100)] (f))
+      (q/with-rotation [(/ (q/frame-count) -100)] (f)))
+          
+            
 
-               (q/stroke 0)
-               (q/stroke-weight 6)
-               (q/stroke-cap :square)
-               ;; (q/stroke 0.0 1 1)
-               (doall
-                (for [i (range 10)]
-                  (q/line 0 60
-                          (* 120 (q/sin (/ i 6)))
-                          (* 120 (q/cos (/ i 6))))))
-               ;; (q/no-fill)
-               ;; (q/ellipse  0 0 390 280)
-               ;; (q/fill 0)
-               ;; (q/quad 20 00 30 190 82 180 30 28)
-               ;; (q/quad 20 00 70 190 22 179 30 28)
-               ;; (q/fill 0.5 1 1)
-               ;; (q/quad 00 00 20 20 32 22 00 0)
-               ;; (q/fill 0.0 1 0.9)
-               ;; (q/quad 80 80 120 80 92 92 90 90)
-               ;; (q/quad 70 70 110 70 82 82 80 80)
-
-               )
-    ;; (do-around 8
-    ;;            (q/stroke 0.25 1 1)
-    ;;            (q/rotate 0.8)
-    ;;            ;; (q/stroke-weight 8)
-    ;;            (q/no-fill)
-    ;;            (q/ellipse  0 0 390 280)
-    ;;            )
-    ;; (q/stroke 0.65 1 1)
-    (q/stroke-weight 9)
-    (do-around 40
-               (q/bezier 0 120
-                         90 140
-                         -10 170
-                         48 174))
-    (q/fill 0)
-    ;; (no-2 30 130 180)
-    ;; (no-2 10 80 120)
-    ;; (no-2 20 50 90)
-    ;; (no-2 26 00 60)
-    (q/no-stroke)
-    ;; (q/fill 0.0 1 1)
-    ;; (no-2 8 80 180)
-    (do-around 40 (q/quad 0 180 11 200 18 200 6 180))
-    )
-
-
+    
+    
+             
 
   ;; slot two
-  (q/with-rotation [(/ (q/frame-count) -100)]
-    (q/scale -1 1)
-    (do-around 4
-               (q/stroke-weight 4)
-               (q/stroke-join :bevel)
-               (q/stroke 0)
-               ;; (q/fill 0)
+  
 
-               ;; (q/stroke 0.65 1 1)
-               (q/line 0 50  30 20)
-               (q/line 0 60  40 20)
-               ;; (q/stroke 0.0 1 1)
-               (q/line 0 50 -20 30)
-               (q/line 0 60 -30 30)
-
-               (let [s 20]
-                 (q/line 0 s s s)
-                 (q/line s s s 0))
-
-               (q/no-fill)
-               ;; (q/rect 2 0 20 20)
-               (q/stroke-weight 7)
-               ;; (q/stroke 0.65 1 1)
-               (doall
-                (for [i (range 10)]
-                  (q/line 0 60
-                          (* 120 (q/sin (/ i 6)))
-                          (* 120 (q/cos (/ i 6))))))
-               (q/stroke-weight 2)
-               ;; (q/stroke 0.65 1 1)
-               (let [s 16]
-                 (q/line 0 s s s)
-                 (q/line s s s 0)
-                 )
-               ;; (q/stroke 0 1 1)
-               (let [s 13]
-                 (q/line 0 s s s)
-                 (q/line s s s 0)
-                 )
-               ;; (q/stroke 0.65 1 1)
-               (let [s 10]
-                 (q/line 0 s s s)
-                 (q/line s s s 0)
-                 )
-               ;; (q/stroke 0 1 1)
-               (let [s 7]
-                 (q/line 0 s s s)
-                 (q/line s s s 0)
-                 )
-               ;; (q/stroke 0.65 1 1)
-               (let [s 4]
-                 (q/line 0 s s s)
-                 (q/line s s s 0)
-                 )
-
-               ;; (q/stroke 0.65 1 1)
-               ;; (q/stroke-weight 10)
-               ;; (q/line 0 90 -100 80)
-               ;; (q/line 0 120 -120 90)
-               ;; (q/no-fill)
-               ;; (q/ellipse  0 0 390 280)
-               ;; (q/quad 20 00 30 190 82 280 20 28)
-               ;; (q/quad 20 00 40 190 22 122 30 28)
-               ;; (q/fill 0.0 1 1)
-               ;; (q/quad 00 00 20 20 32 22 00 0)
-               ;; (q/fill 0.4 1 0.7 0.1)
-               ;; (q/quad 80 80 120 80 92 92 90 90)
-               ;; (q/quad 70 70 110 70 82 82 80 80)
-               )
-    ;; (do-around 9
-    ;;            (q/no-stroke)
-    ;;            (q/quad 40 40 42 50 90 50 42 40)
-    ;;            )
-    (q/stroke-weight 4)
-    ;; (q/stroke 0.0 1 1)
-    (q/stroke-weight 9)
-    (do-around 40
-               (q/bezier 0 120
-                         90 140
-                         -10 170
-                         48 174))
-    (q/no-stroke)
-    (q/fill 0)
-    ;; (q/fill 0.65 1 1)
-    ;; (q/stroke 0.65 1 1)
-    (q/stroke-weight 3)
-    (do-around 40 (q/quad 0 180 11 200 18 200 6 180))
-    ;; (no-2 22 90 100)
-    ;; (no-2 20 50 90)
-    )
+  ; (q/with-rotation [(/ (q/frame-count) -100)]
+  ;   (do-around [] 10
+  ;     (q/ellipse i 40 30 30)))
+    
+  (q/fill 0)
 
   (q/blend-mode :blend)
   ;; (q/blend-mode :normal)
@@ -338,10 +202,11 @@
 
 
   ;; (q/save "test.png")
-  (if (and (>= (q/frame-count) 10)
-           (< (q/frame-count) 100)
-           )
-    (q/save-frame  "frame-####.png"))
+
+  ; (if (and true;(>= (q/frame-count) 0)
+  ;          (< (q/frame-count) 450))
+  ;   (q/save-frame  "frame-####.png")
+  ;   (q/exit))
   (when-not (= (:method state) :dev) (q/exit)))
 
 
@@ -351,16 +216,11 @@
   :settings (fn [] (q/pixel-density 2) (q/smooth))
   :setup (fn []
            (q/color-mode :hsb 1.0)
-           {:slides (repeatedly #(future (q/create-graphics 400 400 :p2d)))
-            :method :dev
+           {:method :dev
             :cut [0 0 0]
             :etch [255 0 0]
             :raster-etch [0 0 255]
-            :shader (doto (q/load-shader "hard-light.glsl")
-                      (.set "destSize" 400 400)
-                      (.set "destRect" 0 0 400 400)
-                      (.set "srcSize" 400 400)
-                      (.set "srcRect" 0 0 400 400))})
+            })
 
   :update identity
   :draw draw
