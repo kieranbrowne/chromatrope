@@ -109,77 +109,57 @@
     (* -0.5 (q/height))))
 
 
+(defn ngon [n w]
+  (q/begin-shape)
+
+  (dotimes [i n]
+    (q/vertex (* w (q/sin (q/map-range i 0 n 0 6.29))) (* w (q/cos (q/map-range i 0 n 0 6.29)))))
+  (q/end-shape :close))
+  
 
 
 (defn draw [state]
   ;; white spotlight
   (q/stroke-cap :project)
-  (q/background 0)
+  (q/background 1)
 
   (q/translate (centre))
 
 
   (q/fill 1)
   (q/ellipse 0 0 380 380)
-  ;; (q/display-filter :blur)
-  (q/blend-mode :darkest)
+  (q/with-rotation [(/ (q/frame-count) -40)]
+    (q/blend-mode :blend)
+    (q/stroke-weight 22)
+    (q/stroke 0)
+    (q/fill 1)
+    (ngon 3 170)
+    (ngon 3 120)
+    (ngon 3 70)
+    (q/rotate 3.145)
+    (ngon 3 170)
+    (ngon 3 120)
+    (ngon 3 70))
 
-  (q/no-stroke)
-  ; (q/fill 0.0 1 1)
-  ; (q/ellipse 0 0 20 20)
 
-  ; (q/fill 0.2 1 1)
-  ; (q/ellipse 10 0 20 20)
+  (q/blend-mode :lightest)
+  (q/with-rotation [(/ (q/frame-count) 10)]
 
-  ;; slot one
-  ;; (q/fill 0 1 1)
-  ;; (q/no-fill)
-  (q/fill 1 1 1)
-  (q/stroke 0)
-  (q/no-stroke)
-  (q/stroke 0)
-  (q/stroke-weight 5)
-  (q/no-fill)
+    (q/no-fill)
+    (q/stroke 1)
+    (q/stroke-weight 22)
+    (q/begin-shape)
+    (dotimes [i 20]
+      (q/curve-vertex (* (* i 7) (q/sin (/ i 2))) (* (* i 7)  (q/cos (/ i 2)))))
+    (q/end-shape)
+    (q/begin-shape)
+    (dotimes [i 20]
+      (q/curve-vertex (* (* (- i) 7) (q/sin (/ i 2))) (* (* (- i) 7)  (q/cos (/ i 2)))))
+ 
+    (q/end-shape))
 
-  (let [f 
-        (fn []
-          (dotimes [n 30]
-                (q/with-rotation [(* (/ 6.28 30) n)]
-                  (q/stroke 0)
-                  (q/stroke (+ 0.2 (* (mod n 2) 0.5)) 1 1)
-                  ;; (q/stroke-weight 1.8)
-                  (q/line (* 10 (q/cos (* (/ 6.28 30) n))) 0 
-                          (* 10 (q/cos (* (/ 6.28 30) n))) 30)
-                  ;; (q/stroke-weight 3.8)
-                  (q/line (* 30 (q/sin (* (/ 6.28 30) n))) 60 
-                          (* 10 (q/cos (* (/ 6.28 30) n))) 30)
-                  ;; (q/stroke-weight 5)
-                  (q/line (* 30 (q/sin (* (/ 6.28 30) n))) 90 
-                          (* 30 (q/sin (* (/ 6.28 30) n))) 60)
-                  ;; (q/stroke-weight 6)
-                  (q/line (* 30 (q/cos (* (/ 6.28 30) n))) 110 
-                          (* 30 (q/sin (* (/ 6.28 30) n))) 90)
-                  ;; (q/stroke-weight 7)
-                  (q/line (* 40 (q/sin (* (/ 6.28 30) n))) 120 
-                          (* 30 (q/cos (* (/ 6.28 30) n))) 110)
-                  (q/fill (* (mod n 2) 0.7) 1 1)
-                  (q/fill (+ 0.2 (* (mod n 2) 0.5)) 1 1)
-                  (q/no-stroke)
-                  (q/ellipse 0 (+ (* (q/cos (* (/ 6.28 30) n)) 8) 140) 40 40))))]
-            
-
-                  ;; (q/stroke-weight 8)
-                  ; (q/line (* 40 (q/sin (* (/ 6.28 30) n))) 120 
-                  ;         (* 20 (q/sin (* (/ 6.28 30) n))) 140)
-                  ; (q/line (* 40 (q/sin (* (/ 6.28 30) n))) 120 
-                  ;         (* 20 (q/sin (* (/ 6.28 30) n))) 140)
-                  ; (q/line (* 40 (q/cos (* (/ 6.28 30) n))) 160 
-                  ;         (* 20 (q/sin (* (/ 6.28 30) n))) 140)
-                  ; (q/line (* 40 (q/cos (* (/ 6.28 30) n))) 160 
-                  ;         (* 120 (q/sin (* (/ 6.28 30) n))) 190))))]
     
-      (q/with-rotation [(/ (q/frame-count) 100)] (f))
-      (q/with-rotation [(/ (q/frame-count) -100)] (f)))
+  (q/stroke 255)
           
             
 
